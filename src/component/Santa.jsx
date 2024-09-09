@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 import './Santa.css';
 import detectEthereumProvider from '@metamask/detect-provider';
+import { claimTokens } from '../middleware/integration';
+
 
 function Santa() {
   const santaRef = useRef(null);
@@ -103,6 +105,7 @@ function Santa() {
 
   const claimButton = () => {
     console.log('finalScore', finalScore);
+    claimTokens(finalScore)
   };
 
   return (
