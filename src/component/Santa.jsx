@@ -3,15 +3,16 @@ import './Santa.css';
 import detectEthereumProvider from '@metamask/detect-provider';
 import { claimTokens } from '../middleware/integration';
 
-
 function Santa() {
   const santaRef = useRef(null);
   const obstaclesRef = useRef(null);
   const [score, setScore] = useState(0);
   const [isJumping, setIsJumping] = useState(false);
   const [isConnected, setIsConnected] = useState(false);
-  const [showModal, setShowModal] = useState(false);
+  const [showModal, setShowModal] = useState(true);
   const [finalScore, setFinalScore] = useState(0);
+  const [isGameStarted, setIsGameStarted] = useState(false);
+  const [isGameOver, setIsGameOver] = useState(false);
 
   async function checkMetaMaskConnection() {
     const provider = await detectEthereumProvider();
@@ -54,7 +55,7 @@ function Santa() {
   };
 
   useEffect(() => {
-    if (isConnected) {
+    if (isConnected && isGameStarted) {
       const checkCollision = setInterval(() => {
         if (santaRef.current && obstaclesRef.current) {
           const santaRect = santaRef.current.getBoundingClientRect();
@@ -68,7 +69,9 @@ function Santa() {
           ) {
             setFinalScore(score);
             setShowModal(true);
-            setScore(0);
+            setIsGameOver(true); 
+            setIsGameStarted(false); 
+            setScore(0); 
           } else {
             setScore((prevScore) => prevScore + 1);
           }
@@ -77,27 +80,32 @@ function Santa() {
 
       return () => clearInterval(checkCollision);
     }
-  }, [score, isJumping, isConnected]);
+  }, [score, isJumping, isConnected, isGameStarted]);
 
   useEffect(() => {
-    if (showModal) {
-      const handleSpacePress = (event) => {
-        if (event.code === 'Space') {
+    const handleSpacePress = (event) => {
+      if (event.code === 'Space') {
+        if (isGameOver) {
+          setShowModal(false);
+          setIsGameOver(false);
+        } else if (!isGameStarted) {
+          setIsGameStarted(true);
           setShowModal(false);
         }
-      };
-      document.addEventListener('keydown', handleSpacePress);
+      }
+    };
 
-      return () => document.removeEventListener('keydown', handleSpacePress);
-    }
-  }, [showModal]);
+    document.addEventListener('keydown', handleSpacePress);
+
+    return () => document.removeEventListener('keydown', handleSpacePress);
+  }, [isGameOver, isGameStarted]);
 
   useEffect(() => {
-    if (isConnected) {
+    if (isConnected && isGameStarted) {
       document.addEventListener('keydown', jump);
       return () => document.removeEventListener('keydown', jump);
     }
-  }, [isConnected]);
+  }, [isConnected, isGameStarted]);
 
   useEffect(() => {
     checkMetaMaskConnection();
@@ -105,7 +113,8 @@ function Santa() {
 
   const claimButton = () => {
     console.log('finalScore', finalScore);
-    claimTokens(finalScore)
+    claimTokens(finalScore);
+    setShowModal(false); // To close the modal
   };
 
   return (
@@ -113,7 +122,9 @@ function Santa() {
       <div className="game">
         <div className="score">Score: {score}</div>
         <div id="santa" ref={santaRef} style={{ bottom: '0px' }} />
-        {isConnected && !showModal && <div id="obstacles" ref={obstaclesRef} />}
+        {isConnected && isGameStarted && !showModal && (
+          <div id="obstacles" ref={obstaclesRef} />
+        )}
         <div className="snowflakes">
           <div className="snowflake">❅</div>
           <div className="snowflake">❅</div>
@@ -126,22 +137,38 @@ function Santa() {
           <div className="snowflake">❅</div>
           <div className="snowflake">❅</div>
         </div>
-        {showModal && (
+        {showModal ? (
           <div className="modal">
             <div className="modal-content">
-              <h2>Game Over</h2>
-              <p className="final-p">
-                Your Final Score:
-                <span className="final-score">{finalScore}</span>
-              </p>
-              <p>
-                Press <span className="key">Space</span> to continue the game.
-              </p>
-              <span style={{ display: 'block', margin: '20px 0px' }}>OR</span>
-              <button onClick={claimButton}>Claim Button</button>
+              {isGameOver ? (
+                <>
+                  <h2>Game Over</h2>
+                  <p className="final-p">
+                    Your Final Score:
+                    <span className="final-score">{finalScore}</span>
+                  </p>
+                  <p>
+                    Press <span className="key">Space</span> to continue the
+                    game.
+                  </p>
+                  <span style={{ display: 'block', margin: '20px 0px' }}>
+                    OR
+                  </span>
+                  <button onClick={claimButton}>Claim Tokens</button>
+                </>
+              ) : isConnected ? (
+                <p>
+                  Press <span className="key">Space</span> to start the game.
+                </p>
+              ) : (
+                <p>
+                  Please <span className="key">Connect your wallet</span> to
+                  start the game.
+                </p>
+              )}
             </div>
           </div>
-        )}
+        ) : null}
       </div>
     </div>
   );
