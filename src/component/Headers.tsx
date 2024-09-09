@@ -61,8 +61,8 @@ const Headers = () => {
     <header className="header">
       <div className="navbar-container">
         <div className="logo-container">
-          <img src="" alt="Santa" loading="lazy" className="logo-image" />
-          <span className="navbar-title">Santa Game</span>
+          {/* <img src="" alt="Santa" loading="lazy" className="logo-image" /> */}
+          <span className="navbar-title">MeldRun</span>
         </div>
         <div className="button-container">
           {walletAddress ? (

@@ -111,10 +111,15 @@ function Santa() {
     checkMetaMaskConnection();
   }, []);
 
-  const claimButton = () => {
+  const claimButton = async () => {
     console.log('finalScore', finalScore);
-    claimTokens(finalScore);
-    setShowModal(false); // To close the modal
+    let value = await claimTokens(finalScore);
+    if(value == "success")
+    {
+      setShowModal(false); // To close the modal
+      alert("Claim Success")
+    }
+    
   };
 
   return (

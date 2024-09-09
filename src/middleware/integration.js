@@ -25,6 +25,7 @@ export const claimTokens = async (amount) => {
         // Call the claim function with the specified amount
         const tx = await contract.claim(ethers.utils.parseUnits(amount.toString(), 18));
         await tx.wait();
+        return "success"
 
         setSuccessMessage(`Claimed ${amount} tokens successfully!`);
       } catch (error) {
