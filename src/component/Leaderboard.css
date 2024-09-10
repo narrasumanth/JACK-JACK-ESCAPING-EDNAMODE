@@ -1,0 +1,75 @@
+.leaderboard {
+    margin: 20px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background: linear-gradient(to bottom, #f4f4f4, #e0f7fa);
+    font-family: 'Arial', sans-serif;
+    color: #333;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    min-height: 20vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.leaderboard h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #e51b43;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.tabs {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.tab-button {
+    background-color: #f7b2c0;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 20px;
+    margin: 0 5px;
+    cursor: pointer;
+    font-size: 16px;
+    color: #333;
+    transition: background-color 0.3s ease;
+}
+
+.tab-button.active {
+    background-color: #e51b43;
+    color: #fff;
+    font-weight: bold;
+}
+
+.leaderboard-content {
+    padding: 0 20px;
+    flex-grow: 1;
+}
+
+.leaderboard-list {
+    list-style: none;
+    padding: 0;
+}
+
+.leaderboard-item {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    background: linear-gradient(to right, #f5f5f5, #f1e6e8);
+}
+
+.leaderboard-item:nth-child(even) {
+    background: #f7b2c0;
+}
+
+.leaderboard-item:last-child {
+    border-bottom: none;
+}
+
+.leaderboard-item::before {
+    content: '🎄';
+    margin-right: 10px;
+}

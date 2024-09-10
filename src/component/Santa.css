@@ -1,14 +1,14 @@
 body {
     margin: 0;
     font-family: 'Arial', sans-serif;
-    background: linear-gradient(to bottom, #1e3c72, #2a5298);
+    background: #ff6d8a;
     background-repeat: no-repeat;
     background-size: cover;
     overflow: hidden;
 }
 
 .game-container {
-    height: 85vh;
+    height: 65vh;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -26,7 +26,7 @@ body {
     display: flex;
     justify-content: flex-start;
     align-items: flex-end;
-    background: radial-gradient(circle, rgba(135, 206, 235, 1) 0%, rgba(173, 216, 230, 1) 100%);
+    background-color: #f7b2c0;
 }
 
 
@@ -159,7 +159,7 @@ body {
 }
 
 .modal {
-    position: fixed;
+    position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -191,7 +191,7 @@ body {
 .modal-content .final-score {
     font-size: 24px;
     font-weight: bold;
-    color: #ff4500;
+    color: #e51b43;
 }
 
 .modal-content .key {
@@ -201,15 +201,8 @@ body {
     border-radius: 3px;
 }
 
-/* .modal-content span {
-    display: block;
-    margin: 20px 0;
-    font-weight: bold;
-    color: #7f8c8d;
-} */
-
 .modal-content button {
-    background-color: #27ae60;
+    background-color: #e51b43;
     color: white;
     padding: 12px 24px;
     border: none;
@@ -220,5 +213,5 @@ body {
 }
 
 .modal-content button:hover {
-    background-color: #2ecc71;
+    background-color: #fd345d;
 }

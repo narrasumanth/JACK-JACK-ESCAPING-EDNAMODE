@@ -35,11 +35,11 @@
     font-size: 24px;
     font-weight: bold;
     letter-spacing: -0.5px;
-    color: #1A73E8;
+    color: #e51b43;
 }
 
 .button-container button {
-    background-color: #1A73E8;
+    background-color: #e51b43;
     color: white;
     border: none;
     padding: 8px 16px;
@@ -48,5 +48,5 @@
 }
 
 .button-container button:hover {
-    background-color: #1662C4;
+    background-color: #e51b43;
 }

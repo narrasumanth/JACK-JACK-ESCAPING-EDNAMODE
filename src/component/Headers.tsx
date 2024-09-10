@@ -15,7 +15,7 @@ const Headers = () => {
         console.log('Please install MetaMask!');
       }
     } catch (err) {
-      return { success: false, msg: 'Trouble connecting wallet!' };
+      console.error('Trouble connecting wallet!', err);
     }
   }
 
@@ -61,14 +61,17 @@ const Headers = () => {
     <header className="header">
       <div className="navbar-container">
         <div className="logo-container">
-          {/* <img src="" alt="Santa" loading="lazy" className="logo-image" /> */}
           <span className="navbar-title">MeldRun</span>
         </div>
         <div className="button-container">
           {walletAddress ? (
-            <span>Connected: {abbreviateAddress(walletAddress)}</span>
+            <button className="connected-button">
+              Connected: {abbreviateAddress(walletAddress)}
+            </button>
           ) : (
-            <button onClick={connectWallet}>Connect Now</button>
+            <button className="connect-button" onClick={connectWallet}>
+              Connect Now
+            </button>
           )}
         </div>
       </div>
