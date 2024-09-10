@@ -61,7 +61,8 @@ const Headers = () => {
     <header className="header">
       <div className="navbar-container">
         <div className="logo-container">
-          <span className="navbar-title">Escape Jack Jack</span>
+          <span className="navbar-title">
+          JACK-JACK ESCAPING EDNAMODE</span>
         </div>
         <div className="button-container">
           {walletAddress ? (
