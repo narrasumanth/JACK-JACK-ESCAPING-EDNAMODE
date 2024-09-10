@@ -160,7 +160,7 @@ function Santa() {
                   <span style={{ display: 'block', margin: '20px 0px' }}>
                     OR
                   </span>
-                  <button onClick={claimButton}>Claim Tokens</button>
+                  <button onClick={claimButton}>Burn EDNA tokens</button>
                 </>
               ) : isConnected ? (
                 <p>
