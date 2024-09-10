@@ -43,26 +43,26 @@ const Leaderboard = () => {
           Top 5 Scores Last Week
         </button>
       </div>
-      {/* <div className="leaderboard-content">
+      <div className="leaderboard-content">
         {activeTab === 'top' && (
           <ul className="leaderboard-list">
-            {topScores.map((score, index) => (
+            {topScores.map((score: any, index) => (
               <li key={index} className="leaderboard-item">
-                {index + 1}. {score.playerName} - {score.score}
+                {index + 1}. {score?.address} - {score?.score}
               </li>
             ))}
           </ul>
         )}
         {activeTab === 'lastWeek' && (
           <ul className="leaderboard-list">
-            {lastWeekScores.map((score, index) => (
+            {lastWeekScores.map((score: any, index) => (
               <li key={index} className="leaderboard-item">
-                {index + 1}. {score.playerName} - {score.score}
+                {index + 1}. {score?.address} - {score?.score}
               </li>
             ))}
           </ul>
         )}
-      </div> */}
+      </div>
     </div>
   );
 };

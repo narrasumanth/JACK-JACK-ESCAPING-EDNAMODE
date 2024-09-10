@@ -56,7 +56,6 @@ export const fetchAllTimeRanking = async () => {
       address: addr,
       score: ethers.utils.formatUnits(scores[i], 18),
     }));
-    console.log('ranking', ranking)
     return ranking;
   } catch (error) {
     console.error('Error fetching all-time ranking:', error);
