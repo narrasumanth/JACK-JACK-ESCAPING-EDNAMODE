@@ -2,6 +2,7 @@ import { ethers } from 'ethers';
 import p2eabi from './p2e.json';
 import erc20 from './ERC20.json';
 import detectEthereumProvider from '@metamask/detect-provider';
+const ContractAddress = "0xCbbFD4b1c034348A0cFD8C62022E70f14c631c5e";
 
 // Function to claim tokens
 export const claimTokens = async (amount) => {
@@ -16,14 +17,14 @@ export const claimTokens = async (amount) => {
       const signer = provider.getSigner();
       console.log('test4');
       const contract = new ethers.Contract(
-        '0xde104384697D1318652042c42bbf34e2206B2fd8',
+        ContractAddress,
         p2eabi,
         signer
       );
       console.log('test5');
 
       // Call the claim function with the specified amount
-      const tx = await contract.claim(
+      const tx = await contract.burn(
         ethers.utils.parseUnits(amount.toString(), 18)
       );
       await tx.wait();
@@ -46,7 +47,7 @@ export const fetchAllTimeRanking = async () => {
       'https://testnet-rpc.meld.com'
     );
     const contract = new ethers.Contract(
-      '0xde104384697D1318652042c42bbf34e2206B2fd8',
+      ContractAddress,
       p2eabi,
       provider
     );
@@ -69,7 +70,7 @@ export const fetchLast7DaysRanking = async () => {
       'https://testnet-rpc.meld.com'
     );
     const contract = new ethers.Contract(
-      '0xde104384697D1318652042c42bbf34e2206B2fd8',
+      ContractAddress,
       p2eabi,
       provider
     );
