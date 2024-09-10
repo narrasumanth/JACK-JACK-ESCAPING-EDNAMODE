@@ -61,7 +61,7 @@ const Headers = () => {
     <header className="header">
       <div className="navbar-container">
         <div className="logo-container">
-          <span className="navbar-title">MeldRun</span>
+          <span className="navbar-title">Escape Jack Jack</span>
         </div>
         <div className="button-container">
           {walletAddress ? (
