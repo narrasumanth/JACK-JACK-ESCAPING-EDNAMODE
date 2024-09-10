@@ -69,9 +69,9 @@ function Santa() {
           ) {
             setFinalScore(score);
             setShowModal(true);
-            setIsGameOver(true); 
-            setIsGameStarted(false); 
-            setScore(0); 
+            setIsGameOver(true);
+            setIsGameStarted(false);
+            setScore(0);
           } else {
             setScore((prevScore) => prevScore + 1);
           }
@@ -85,9 +85,12 @@ function Santa() {
   useEffect(() => {
     const handleSpacePress = (event) => {
       if (event.code === 'Space') {
+        event.preventDefault();
         if (isGameOver) {
           setShowModal(false);
           setIsGameOver(false);
+          setIsGameStarted(true);
+          setScore(0);
         } else if (!isGameStarted) {
           setIsGameStarted(true);
           setShowModal(false);
@@ -114,12 +117,10 @@ function Santa() {
   const claimButton = async () => {
     console.log('finalScore', finalScore);
     let value = await claimTokens(finalScore);
-    if(value == "success")
-    {
+    if (value == 'success') {
       setShowModal(false); // To close the modal
-      alert("Claim Success")
+      alert('Claim Success');
     }
-    
   };
 
   return (

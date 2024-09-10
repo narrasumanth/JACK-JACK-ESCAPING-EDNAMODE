@@ -1,7 +1,7 @@
 import './App.css';
 import Headers from './component/Headers';
 import Leaderboard from './component/Leaderboard';
-import Santa from './component/Santa.jsx';
+import Santa from './component/Santa';
 
 function App() {
   return (

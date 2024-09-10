@@ -1,24 +1,30 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './Leaderboard.css';
+import {
+  fetchAllTimeRanking,
+  fetchLast7DaysRanking,
+} from '../middleware/integration';
 
 const Leaderboard = () => {
-  const topScores = [
-    { playerName: 'Alice', score: 5000 },
-    { playerName: 'Bob', score: 4800 },
-    { playerName: 'Charlie', score: 4700 },
-    { playerName: 'David', score: 4600 },
-    { playerName: 'Eve', score: 4500 },
-  ];
-
-  const lastWeekScores = [
-    { playerName: 'Frank', score: 4000 },
-    { playerName: 'Grace', score: 3900 },
-    { playerName: 'Heidi', score: 3800 },
-    { playerName: 'Ivan', score: 3700 },
-    { playerName: 'Judy', score: 3600 },
-  ];
-
+  const [topScores, setTopScores] = useState([]);
+  const [lastWeekScores, setLastWeekScores] = useState([]);
   const [activeTab, setActiveTab] = useState('top');
+
+  const fetchScores = async () => {
+    try {
+      const allTimeRanking = await fetchAllTimeRanking();
+      setTopScores(allTimeRanking);
+
+      const last7DaysRanking = await fetchLast7DaysRanking();
+      setLastWeekScores(last7DaysRanking);
+    } catch (error) {
+      console.error('Error fetching rankings:', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchScores();
+  }, []);
 
   return (
     <div className="leaderboard">
@@ -37,7 +43,7 @@ const Leaderboard = () => {
           Top 5 Scores Last Week
         </button>
       </div>
-      <div className="leaderboard-content">
+      {/* <div className="leaderboard-content">
         {activeTab === 'top' && (
           <ul className="leaderboard-list">
             {topScores.map((score, index) => (
@@ -56,7 +62,7 @@ const Leaderboard = () => {
             ))}
           </ul>
         )}
-      </div>
+      </div> */}
     </div>
   );
 };
