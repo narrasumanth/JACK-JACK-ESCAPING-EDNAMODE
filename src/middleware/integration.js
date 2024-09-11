@@ -65,3 +65,43 @@ export const fetchAllTimeRanking = async () => {
 };
 
 
+export const totalBurn = async () => {
+  try {
+    const provider = new ethers.providers.JsonRpcProvider(
+      'https://testnet-rpc.meld.com'
+    );
+    const contract = new ethers.Contract(
+      ContractAddress,
+      p2eabi,
+      provider
+    );
+    let value = await contract.totalAmountBurned();
+   
+    value = ethers.utils.formatUnits(value, 18);
+    
+    return value;
+  } catch (error) {
+    console.error('Error fetching all-time ranking:', error);
+  }
+};
+
+
+export const totalBurnByUser = async (address) => {
+  try {
+    const provider = new ethers.providers.JsonRpcProvider(
+      'https://testnet-rpc.meld.com'
+    );
+    const contract = new ethers.Contract(
+      ContractAddress,
+      p2eabi,
+      provider
+    );
+    let value = await contract.totalBurnPerAddress(address);
+   
+    value = ethers.utils.formatUnits(value, 18);
+    
+    return value;
+  } catch (error) {
+    console.error('Error fetching all-time ranking:', error);
+  }
+};
