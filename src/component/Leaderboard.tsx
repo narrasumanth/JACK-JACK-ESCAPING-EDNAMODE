@@ -57,7 +57,7 @@ const Leaderboard = () => {
           <ul className="leaderboard-list">
             {lastWeekScores?.map((score: any, index) => (
               <li key={index} className="leaderboard-item">
-                {index + 1}. {score?.user} - {(Number(parseInt(score?.amount?._hex, 16))/1e18).toFixed(2)}
+                {index + 1}. {score?.user} - {(Number(parseInt(score?.amount?._hex, 16))/1e18).toFixed()}
               </li>
             ))}
           </ul>
