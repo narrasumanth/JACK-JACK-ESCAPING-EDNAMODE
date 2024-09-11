@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import './Santa.css';
 import detectEthereumProvider from '@metamask/detect-provider';
 import {
@@ -21,7 +21,7 @@ function Santa() {
   const [totalBurnValueUserFetching, setTotalBurnValueUserFetching] =
     useState('');
   const [userAccount, setUserAccount] = useState('');
-
+  
   async function checkMetaMaskConnection() {
     const provider = await detectEthereumProvider();
     if (provider) {
@@ -80,7 +80,6 @@ function Santa() {
             setShowModal(true);
             setIsGameOver(true);
             setIsGameStarted(false);
-            setScore(0);
           } else {
             setScore((prevScore) => prevScore + 1);
           }
@@ -99,7 +98,6 @@ function Santa() {
           setShowModal(false);
           setIsGameOver(false);
           setIsGameStarted(true);
-          setScore(0);
         } else if (!isGameStarted) {
           setIsGameStarted(true);
           setShowModal(false);
@@ -107,15 +105,37 @@ function Santa() {
       }
     };
 
-    document.addEventListener('keydown', handleSpacePress);
+    const handleTouch = (event) => {
+      if (event.target.closest('button')) {
+        return;
+      }
 
-    return () => document.removeEventListener('keydown', handleSpacePress);
+      if (isGameOver) {
+        setShowModal(false);
+        setIsGameOver(false);
+        setIsGameStarted(true);
+      } else if (!isGameStarted) {
+        setIsGameStarted(true);
+        setShowModal(false);
+      }
+    };
+
+    document.addEventListener('keydown', handleSpacePress);
+    document.addEventListener('touchstart', handleTouch);
+    return () => {
+      document.removeEventListener('keydown', handleSpacePress);
+      document.removeEventListener('touchstart', handleTouch);
+    };
   }, [isGameOver, isGameStarted]);
 
   useEffect(() => {
     if (isConnected && isGameStarted) {
       document.addEventListener('keydown', jump);
-      return () => document.removeEventListener('keydown', jump);
+      document.addEventListener('touchstart', jump);
+      return () => {
+        document.removeEventListener('keydown', jump);
+        document.removeEventListener('touchstart', jump);
+      };
     }
   }, [isConnected, isGameStarted]);
 
@@ -126,9 +146,10 @@ function Santa() {
   const claimButton = async () => {
     console.log('finalScore', finalScore);
     let value = await claimTokens(finalScore);
-    if (value == 'success') {
-      setShowModal(false); // To close the modal
-      alert('Claim Success');
+    if (value === 'success') {
+      setShowModal(false);
+      setScore(0);
+      alert('Burn Success');
     }
   };
 
@@ -157,13 +178,30 @@ function Santa() {
     }
   }, [userAccount]);
 
+  useEffect(() => {
+    const burnButton = document.querySelector('.burn-button');
+    if (burnButton) {
+      burnButton.addEventListener('touchstart', function (event) {
+        event.preventDefault();
+        claimButton();
+      });
+    }
+
+    return () => {
+      if (burnButton) {
+        burnButton.removeEventListener('touchstart', claimButton);
+      }
+    };
+  }, []);
+
   return (
     <div className="game-container">
       <div className="game">
         <div className="score">
-          <span>Score: {score}</span>
+          <span>Current Score: {score}</span>
           <span>
-            {' '}- Platform Burn: {Math.round(totalBurnValueFetching * 100) / 100}
+            {' '}
+            - Platform Burn: {Math.round(totalBurnValueFetching * 100) / 100}
           </span>{' '}
           {userAccount && (
             <span>
@@ -199,17 +237,26 @@ function Santa() {
                     <span className="final-score">{finalScore}</span>
                   </p>
                   <p>
-                    Press <span className="key">Space</span> to continue the
+                    Press <span className="key">Space</span> or{' '}
+                    <span className="key">Tap the screen</span> to continue the
                     game.
                   </p>
                   <span style={{ display: 'block', margin: '20px 0px' }}>
                     OR
                   </span>
-                  <button onClick={claimButton}>Burn EDNA Tokens</button>
+                  <button
+                    onClick={claimButton}
+                    className="burn-button"
+                    style={{ pointerEvents: 'auto', zIndex: 1001 }}
+                    tabIndex={0}
+                  >
+                    Burn EDNA Tokens
+                  </button>
                 </>
               ) : isConnected ? (
                 <p>
-                  Press <span className="key">Space</span> to start the game.
+                  Press <span className="key">Space</span> or{' '}
+                  <span className="key">Tap the screen</span> to start the game.
                 </p>
               ) : (
                 <p>

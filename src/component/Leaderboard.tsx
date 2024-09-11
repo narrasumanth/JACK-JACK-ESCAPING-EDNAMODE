@@ -40,7 +40,7 @@ const Leaderboard = () => {
           className={`tab-button ${activeTab === 'lastWeek' ? 'active' : ''}`}
           onClick={() => setActiveTab('lastWeek')}
         >
-          Top 5 Scores Last Week
+          Top 5 Scorer past 7 days
         </button>
       </div>
       <div className="leaderboard-content">
@@ -48,7 +48,8 @@ const Leaderboard = () => {
           <ul className="leaderboard-list">
             {topScores?.map((score: any, index) => (
               <li key={index} className="leaderboard-item">
-                {index + 1}. {score?.user} - {(Number(parseInt(score?.amount?._hex, 16))/1e18).toFixed(2)}
+                {index + 1}. {score?.user} -{' '}
+                {(Number(parseInt(score?.amount?._hex, 16)) / 1e18).toFixed()}
               </li>
             ))}
           </ul>
@@ -57,7 +58,8 @@ const Leaderboard = () => {
           <ul className="leaderboard-list">
             {lastWeekScores?.map((score: any, index) => (
               <li key={index} className="leaderboard-item">
-                {index + 1}. {score?.user} - {(Number(parseInt(score?.amount?._hex, 16))/1e18).toFixed()}
+                {index + 1}. {score?.user} -{' '}
+                {(Number(parseInt(score?.amount?._hex, 16)) / 1e18).toFixed()}
               </li>
             ))}
           </ul>
