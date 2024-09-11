@@ -32,9 +32,9 @@ body {
 
 #santa {
     width: 100px;
-    height: 100px;
-    background-image: url(../assets/image/santa.png);
-    background-size: 100px 100px;
+    height: 130px;
+    background-image: url(../assets/image/Jack.png);
+    background-size: 90px 130px;
     background-repeat: no-repeat;
     position: absolute;
     left: 10px;
@@ -43,14 +43,14 @@ body {
 }
 
 #obstacles {
-    width: 80px;
-    height: 70px;
+    width: 110px;
+    height: 110px;
     position: absolute;
     bottom: 0px;
     left: 90%;
-    background-image: url(../assets/image/obstacles.png);
+    background-image: url(../assets/image/O2.png);
     background-repeat: no-repeat;
-    background-size: 70px 70px;
+    background-size: 110px 110px;
     animation: moveObstacles 2s infinite linear;
     z-index: 1;
 }
