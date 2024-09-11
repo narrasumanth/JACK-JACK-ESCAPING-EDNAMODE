@@ -48,7 +48,7 @@ const Leaderboard = () => {
           <ul className="leaderboard-list">
             {topScores.map((score: any, index) => (
               <li key={index} className="leaderboard-item">
-                {index + 1}. {score?.address} - {score?.score}
+                {index + 1}. {score?.user} - {parseInt(score?.amount?._hex, 16)}
               </li>
             ))}
           </ul>
@@ -57,7 +57,7 @@ const Leaderboard = () => {
           <ul className="leaderboard-list">
             {lastWeekScores.map((score: any, index) => (
               <li key={index} className="leaderboard-item">
-                {index + 1}. {score?.address} - {score?.score}
+                {index + 1}. {score?.user} - {parseInt(score?.amount?._hex, 16)}
               </li>
             ))}
           </ul>
