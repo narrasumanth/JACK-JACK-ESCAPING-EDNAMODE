@@ -2,7 +2,7 @@ import { ethers } from 'ethers';
 import p2eabi from './p2e.json';
 import erc20 from './ERC20.json';
 import detectEthereumProvider from '@metamask/detect-provider';
-const ContractAddress = "0xCbbFD4b1c034348A0cFD8C62022E70f14c631c5e";
+const ContractAddress = "0xdAe75DE95F22e36d59806F0D1964d10642FA589d";
 
 // Function to claim tokens
 export const claimTokens = async (amount) => {
@@ -43,6 +43,7 @@ export const claimTokens = async (amount) => {
 // Function to fetch all-time top 5 ranking
 export const fetchAllTimeRanking = async () => {
   try {
+    console.log("working1")
     const provider = new ethers.providers.JsonRpcProvider(
       'https://testnet-rpc.meld.com'
     );
@@ -51,36 +52,16 @@ export const fetchAllTimeRanking = async () => {
       p2eabi,
       provider
     );
-    const [addresses, scores] = await contract.getAllTimeTop5();
+    const [addresses, scores] = await contract.getTopBurners();
     const ranking = addresses.map((addr, i) => ({
       address: addr,
       score: ethers.utils.formatUnits(scores[i], 18),
     }));
     return ranking;
   } catch (error) {
+    console.log("working1000")
     console.error('Error fetching all-time ranking:', error);
   }
 };
 
-// Function to fetch last 7 days top 5 ranking
-export const fetchLast7DaysRanking = async () => {
-  try {
-    const provider = new ethers.providers.JsonRpcProvider(
-      'https://testnet-rpc.meld.com'
-    );
-    const contract = new ethers.Contract(
-      ContractAddress,
-      p2eabi,
-      provider
-    );
 
-    const [addresses, scores] = await contract.getLast7DaysTop5();
-    const ranking = addresses.map((addr, i) => ({
-      address: addr,
-      score: ethers.utils.formatUnits(scores[i], 18),
-    }));
-    return ranking;
-  } catch (error) {
-    console.error('Error fetching last 7 days ranking:', error);
-  }
-};
