@@ -2,7 +2,7 @@ import { ethers } from 'ethers';
 import p2eabi from './p2e.json';
 import erc20 from './ERC20.json';
 import detectEthereumProvider from '@metamask/detect-provider';
-const ContractAddress = "0xdAe75DE95F22e36d59806F0D1964d10642FA589d";
+const ContractAddress = "0x6b3BcE6A4e65e0769B939aE88046Ff185F40C263";
 
 // Function to claim tokens
 export const claimTokens = async (amount) => {
@@ -105,3 +105,30 @@ export const totalBurnByUser = async (address) => {
     console.error('Error fetching all-time ranking:', error);
   }
 };
+
+
+
+
+export const fetchLast7DaysRanking = async () => {
+  try {
+    console.log("working1")
+    const provider = new ethers.providers.JsonRpcProvider(
+      'https://testnet-rpc.meld.com'
+    );
+    const contract = new ethers.Contract(
+      ContractAddress,
+      p2eabi,
+      provider
+    );
+    const [addresses, scores] = await contract.getTopBurnsLast7Days();
+    const ranking = addresses.map((addr, i) => ({
+      address: addr,
+      score: ethers.utils.formatUnits(scores[i], 18),
+    }));
+    console.log(ranking,">>>>>>>>>>>>>>>>>>>😂")
+    return ranking;
+  } catch (error) {
+    console.log("working1000")
+    console.error('Error fetching all-time ranking:', error);
+  }
+}
