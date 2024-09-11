@@ -44,11 +44,7 @@ export const fetchAllTimeRanking = async () => {
       'https://testnet-rpc.meld.com'
     );
     const contract = new ethers.Contract(ContractAddress, p2eabi, provider);
-    const [addresses, scores] = await contract.getTopBurners();
-    const ranking = addresses.map((addr, i) => ({
-      address: addr,
-      score: ethers.utils.formatUnits(scores[i], 18),
-    }));
+    const ranking = await contract.getTopBurners();
     return ranking;
   } catch (error) {
     console.log('working1000');
@@ -94,7 +90,7 @@ export const fetchLast7DaysRanking = async () => {
       'https://testnet-rpc.meld.com'
     );
     const contract = new ethers.Contract(ContractAddress, p2eabi, provider);
-    const value = await contract.getTopBurnsLast7Days();
+    let value = await contract.getTopBurnsLast7Days();
     return value;
   } catch (error) {
     console.log('working1000');

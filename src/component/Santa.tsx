@@ -1,7 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
 import './Santa.css';
 import detectEthereumProvider from '@metamask/detect-provider';
-import { claimTokens } from '../middleware/integration';
+import {
+  claimTokens,
+  totalBurn,
+  totalBurnByUser,
+} from '../middleware/integration';
 
 function Santa() {
   const santaRef = useRef(null);
@@ -13,14 +17,19 @@ function Santa() {
   const [finalScore, setFinalScore] = useState(0);
   const [isGameStarted, setIsGameStarted] = useState(false);
   const [isGameOver, setIsGameOver] = useState(false);
+  const [totalBurnValueFetching, setTotalBurnValueFetching] = useState('');
+  const [totalBurnValueUserFetching, setTotalBurnValueUserFetching] =
+    useState('');
+  const [userAccount, setUserAccount] = useState('');
 
   async function checkMetaMaskConnection() {
     const provider = await detectEthereumProvider();
     if (provider) {
-      const accounts = await window.ethereum.request({
+      const accounts: any = await window?.ethereum.request({
         method: 'eth_accounts',
       });
-      if (accounts.length > 0) {
+      setUserAccount(accounts[0]);
+      if (accounts?.length > 0) {
         setIsConnected(true);
       } else {
         setIsConnected(false);
@@ -123,10 +132,46 @@ function Santa() {
     }
   };
 
+  const fetchScores = async () => {
+    try {
+      const totalBurnValue = await totalBurn();
+      setTotalBurnValueFetching(totalBurnValue);
+    } catch (error) {
+      console.error('Error fetching rankings:', error);
+    }
+  };
+
+  const fetchUserScores = async () => {
+    try {
+      const totalBurnValueUser = await totalBurnByUser(userAccount);
+      setTotalBurnValueUserFetching(totalBurnValueUser);
+    } catch (error) {
+      console.error('Error fetching rankings:', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchScores();
+    if (userAccount) {
+      fetchUserScores();
+    }
+  }, [userAccount]);
+
   return (
     <div className="game-container">
       <div className="game">
-        <div className="score">Score: {score}</div>
+        <div className="score">
+          <span>Score: {score}</span>
+          <span>
+            {' '}- Platform Burn: {Math.round(totalBurnValueFetching * 100) / 100}
+          </span>{' '}
+          {userAccount && (
+            <span>
+              - Your Burn: {Math.round(totalBurnValueUserFetching * 100) / 100}
+            </span>
+          )}
+        </div>
+
         <div id="santa" ref={santaRef} style={{ bottom: '0px' }} />
         {isConnected && isGameStarted && !showModal && (
           <div id="obstacles" ref={obstaclesRef} />
