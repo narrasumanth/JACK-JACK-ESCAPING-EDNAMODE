@@ -28,7 +28,7 @@ const Leaderboard = () => {
 
   return (
     <div className="leaderboard">
-      <h2>🎄 Burning EDNAMODE Leaderboard🎄</h2>
+      <h2>🎄 Burning EDNA Leaderboard🎄</h2>
       <div className="tabs">
         <button
           className={`tab-button ${activeTab === 'top' ? 'active' : ''}`}
