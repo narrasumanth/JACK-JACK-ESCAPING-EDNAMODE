@@ -62,7 +62,7 @@ const Headers = () => {
       <div className="navbar-container">
         <div className="logo-container">
           <span className="navbar-title">
-          JACK-JACK ESCAPING EDNAMODE</span>
+          JACK-JACK ESCAPING EDNAMODE - CONNECT TO MELD TESTNET ONLY </span>
         </div>
         <div className="button-container">
           {walletAddress ? (
